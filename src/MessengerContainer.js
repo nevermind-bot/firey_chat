@@ -35,7 +35,20 @@ class MessengerContainer extends Component {
     constructor(props) {
         super(props);
 
-        this._messagesRef = new Firebase("https://chat-e6aab.firebaseio.com/messages");
+        let uuid = '이석민UUID';
+
+        this._ref = new Firebase("https://chat-e6aab.firebaseio.com/");
+
+        this._userRef = this._ref.child('user');
+        // 익명 로그인 authenticatoin
+        this._userRef.push({
+            user: {
+                _id: uuid,
+                avatar: 'https://facebook.github.io/react/img/logo_og.png',
+            },
+        });
+
+        this._messagesRef = this.requestNewMatch(uuid);
         this._messages = [];
 
         this.state = {
@@ -76,6 +89,60 @@ class MessengerContainer extends Component {
 
     handleReceive(message = {}) {
         this.setMessages(this._messages.concat(message));
+    }
+
+    handleOutRequest() {
+        this._messagesRef.push({
+            text: '상대방이 나갔습니다',
+            name: UserName,
+            avatarUrl: AvatarUrl,
+            date: new Date().getTime(),
+            isExit: true
+        });
+    }
+
+    requestNewMatch(uuid) {
+        this._roomsRef = this._ref.child('rooms');
+        let roomKey = null;
+        this._roomsRef.limitToLast(1).on("value", function(snapshot) {
+            let lastRoom = snapshot.val();
+            if (lastRoom) {
+                let roomRef = new Firebase("https://chat-e6aab.firebaseio.com/rooms/");
+                roomRef.transaction(function (room) {
+                    if (room) {
+                        if (room.matchedAt) {
+                            // 다른애 찾기
+                            roomRef.push({
+                                userA: uuid,
+                                userB: null,
+                                createdAt: new Date().getTime(),
+                                matchedAt: null,
+                                endedAt: null,
+                            });
+                            roomKey = roomRef.key;
+                        } else {
+                            // 자기 등록하기
+                            room.userB = uuid;
+                            room.matchedAt = new Date().getTime();
+                            roomKey = room.id;
+                        }
+                    }
+                });
+            } else {
+                let roomsRef = new Firebase("https://chat-e6aab.firebaseio.com/rooms");
+                roomsRef.push({
+                    userA: uuid,
+                    userB: null,
+                    createdAt: new Date().getTime(),
+                    matchedAt: null,
+                    endedAt: null,
+                });
+                roomKey = roomsRef.id;
+            }
+        });
+
+        return this._ref.child('rooms/' + roomKey);
+
     }
 
     render() {

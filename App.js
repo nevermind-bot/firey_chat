@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 
 const Firebase = require('firebase');
-import MessengerContainer from './src/containers/MessengerContainer'
+import MessengerContainer from './src/MessengerContainer'
 
 
 export default class firey_chat extends Component {
