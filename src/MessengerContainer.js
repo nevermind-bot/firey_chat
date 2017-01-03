@@ -133,7 +133,7 @@ class MessengerContainer extends Component {
 
         });
 
-        return this._ref.child('rooms/' + roomKey);
+        return this._ref.child('messages/' + roomKey);
 
     }
 
