@@ -35,17 +35,15 @@ class MessengerContainer extends Component {
     constructor(props) {
         super(props);
 
-        let uuid = '이석민UUID';
+        let uuid = 'dfdf';
 
         this._ref = new Firebase("https://chat-e6aab.firebaseio.com/");
 
-        this._userRef = this._ref.child('user');
+        this._userRef = this._ref.child('users');
         // 익명 로그인 authenticatoin
         this._userRef.push({
-            user: {
-                _id: uuid,
-                avatar: 'https://facebook.github.io/react/img/logo_og.png',
-            },
+            _id: uuid,
+            avatar: 'https://facebook.github.io/react/img/logo_og.png',
         });
 
         this._messagesRef = this.requestNewMatch(uuid);
@@ -104,89 +102,35 @@ class MessengerContainer extends Component {
     requestNewMatch(uuid) {
         this._roomsRef = this._ref.child('rooms');
         let roomKey = null;
-        this._roomsRef.limitToLast(1).once("value", function(snapshot) {
-            snapshot.forEach(function (childSnapshot) {
-                let key = childSnapshot.key();
-                if (key) {
-                    let baseRef = new Firebase("https://chat-e6aab.firebaseio.com/");
-                    let roomRef = baseRef.child(key);
-                    console.warn(roomRef);
-                    // let roomRef = new Firebase("https://chat-e6aab.firebaseio.com/rooms/" + key);
-                    roomRef.transaction(function (room) {
-                        console.warn(room);
-                        if (room) {
-                            console.warn(room);
-                            if (room.matchedAt) {
-                                // 다른애 찾기
-                                roomRef.push({
-                                    userA: uuid,
-                                    userB: null,
-                                    createdAt: new Date().getTime(),
-                                    matchedAt: null,
-                                    endedAt: null,
-                                });
-                                roomKey = roomRef.key;
-                            } else {
-                                console.warn('hoithoit');
-                                // 자기 등록하기
-                                room.userB = uuid;
-                                room.matchedAt = new Date().getTime();
-                                roomKey = room._id;
-                            }
-                        }
-                    });
-                }
-                else {
-                    let roomsRef = new Firebase("https://chat-e6aab.firebaseio.com/rooms");
-                    roomsRef.push({
-                        userA: uuid,
-                        userB: null,
-                        createdAt: new Date().getTime(),
-                        matchedAt: null,
-                        endedAt: null,
-                    });
-                    roomKey = roomsRef.id;
-                }
-            });
+        this._roomsRef.orderByChild("userB").endAt("").limitToLast(1).once("value", function(snapshot) {
+            console.log("a");
+            if (snapshot.hasChildren()) {
+                console.log("b");
+                roomKey = Object.keys(snapshot.val())[0];
+                let room = snapshot.val()[roomKey];
+                let roomRef = new Firebase("https://chat-e6aab.firebaseio.com/users/");
+                let roomKeyRef = new Firebase("https://chat-e6aab.firebaseio.com/rooms/" + roomKey);
 
-            //
-            //
-            // let lastRoom = snapshot.val();
-            // if (lastRoom) {
-            //     let roomRef = new Firebase("https://chat-e6aab.firebaseio.com/rooms/");
-            //     roomRef.transaction(function (room) {
-            //         if (room) {
-            //             // console.warn(room);
-            //             if (room.matchedAt) {
-            //                 // 다른애 찾기
-            //                 roomRef.push({
-            //                     userA: uuid,
-            //                     userB: null,
-            //                     createdAt: new Date().getTime(),
-            //                     matchedAt: null,
-            //                     endedAt: null,
-            //                 });
-            //                 roomKey = roomRef.key;
-            //             } else {
-            //                 console.warn('hoithoit');
-            //                 // 자기 등록하기
-            //                 room.userB = uuid;
-            //                 room.matchedAt = new Date().getTime();
-            //                 roomKey = room._id;
-            //             }
-            //         }
-            //     });
-            // } else {
-            //     let roomsRef = new Firebase("https://chat-e6aab.firebaseio.com/rooms");
-            //     roomsRef.push({
-            //         userA: uuid,
-            //         userB: null,
-            //         createdAt: new Date().getTime(),
-            //         matchedAt: null,
-            //         endedAt: null,
-            //     });
-            //     roomKey = roomsRef.id;
-            // }
+                console.log(roomKeyRef.key());
+                let updates = {
+                    'userB':'new',
+                    'matchedAt': new Date().getTime()
+                };
+                roomKeyRef.update(updates);
+            }
+            else {
+                console.log("c");
+                let roomsRef = new Firebase("https://chat-e6aab.firebaseio.com/rooms");
+                let roomsKeyRef = roomsRef.push({
+                    userA: uuid,
+                    userB: null,
+                    createdAt: new Date().getTime(),
+                    matchedAt: null,
+                    endedAt: null,
+                });
+                roomKey = roomsKeyRef.key();
+            }
+
         });
 
         return this._ref.child('rooms/' + roomKey);
