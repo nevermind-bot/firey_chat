@@ -36,7 +36,7 @@ class MessengerContainer extends Component {
     constructor(props) {
         super(props);
 
-        this.uuid = 'dfdfaa';
+        this.uuid = 'nevermind';
         this._ref = new Firebase("https://chat-e6aab.firebaseio.com/");
 
         this._userRef = this._ref.child('users');
