@@ -22,9 +22,10 @@ import MessengerContainer from './src/MessengerContainer'
 export default class firey_chat extends Component {
     render() {
         return (
-            <View style={styles.container}>
-                <MessengerContainer/>
-            </View>
+            <MessengerContainer/>
+            // <View style={styles.container}>
+            //     <MessengerContainer/>
+            // </View>
         );
     }
 }

@@ -42,3 +42,5 @@ android/app/libs
 *.keystore
 
 android/app/firey-crudentials.json
+android/fastlane/
+fastlane/
