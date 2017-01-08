@@ -12,7 +12,8 @@ import {
     Button,
 } from 'react-native';
 
-import AuthController from 'AuthController';
+import AuthController from "./AuthController";
+import FireyFirebase from "./FirebaseConfig";
 import SplashScreen from 'react-native-splash-screen';
 
 
@@ -30,7 +31,6 @@ if (Platform.OS == 'ios') {
     var AvatarUrl = 'https://source.unsplash.com/2Ts5HnA67k8/100x100';
 }
 
-
 class MessengerContainer extends Component {
 
     constructor(props) {
@@ -38,9 +38,12 @@ class MessengerContainer extends Component {
 
         this.authController = new AuthController();
         this.uuid = '클레오파트라';
-        this._ref = new Firebase("https://chat-e6aab.firebaseio.com/");
+        this.db = FireyFirebase.firey_firebase.database();
+        this.dbMessages = this.db.ref('messages');
+        this.dbRooms = this.db.ref('rooms');
+        this.dbUsers = this.db.ref('users');
 
-        this._messagesRef = '';
+        this.dbThisMessages = null;
         this._messages = [];
 
         this.state = {
@@ -56,8 +59,7 @@ class MessengerContainer extends Component {
 
     registerUser() {
         let uuid = this.authController.getUUID();
-        let userRef = this._ref.child('users');
-        userRef.push({
+        this.dbUsers.push({
             _id: uuid,
             avatar: 'https://facebook.github.io/react/img/logo_og.png',
         });
@@ -66,23 +68,21 @@ class MessengerContainer extends Component {
 
     requestNewMatch() {
         let _this = this;
-        this._roomsRef = this._ref.child('rooms');
         let roomKey = null;
-        this._roomsRef.orderByChild("userB").endAt("").limitToLast(1).once("value", function (snapshot) {
+        this.dbRooms.orderByChild("userB").endAt("").limitToLast(1).once("value", function (snapshot) {
             if (snapshot.hasChildren()) {
                 roomKey = Object.keys(snapshot.val())[0];
-                let roomKeyRef = new Firebase("https://chat-e6aab.firebaseio.com/rooms/" + roomKey);
+                let roomKeyRef = _this.dbRooms.child(roomKey);
                 let updates = {
                     'userB': _this.uuid,
                     'matchedAt': new Date().getTime()
                 };
                 roomKeyRef.update(updates);
-                _this._messagesRef = _this._ref.child('messages/' + roomKey);
+                _this.dbThisMessages = _this.dbMessages.child(roomKey);
                 _this.getMessagesFromRef();
             }
             else {
-                let roomsRef = new Firebase("https://chat-e6aab.firebaseio.com/rooms");
-                let roomsKeyRef = roomsRef.push({
+                let roomsKeyRef = _this.dbRooms.push({
                     userA: _this.uuid,
                     userB: null,
                     createdAt: new Date().getTime(),
@@ -90,21 +90,21 @@ class MessengerContainer extends Component {
                     endedAt: null,
                 });
                 roomKey = roomsKeyRef.key();
-                _this._messagesRef = _this._ref.child('messages/' + roomKey);
+                _this.dbThisMessages = _this.dbMessages.child(roomKey);
                 _this.getMessagesFromRef();
             }
         });
     }
 
     getMessagesFromRef() {
-        this._messagesRef.on('child_added', (child) => {
+        this.dbThisMessages.on('child_added', (child) => {
             this.handleReceive({
                 text: child.val().text,
                 name: child.val().name,
                 image: {uri: child.val().avatarUrl || 'https://facebook.github.io/react/img/logo_og.png'},
                 position: child.val().name == this.uuid && 'right' || 'left',
                 date: new Date(child.val().date),
-                uniqueId: child.key()
+                uniqueId: child.key
             });
         });
     }
@@ -117,7 +117,7 @@ class MessengerContainer extends Component {
     }
 
     handleSend(message = {}) {
-        this._messagesRef.push({
+        this.dbThisMessages.push({
             text: message.text,
             name: this.uuid,
             avatarUrl: AvatarUrl,
@@ -126,7 +126,7 @@ class MessengerContainer extends Component {
     }
 
     handleOutRequest() {
-        this._messagesRef.push({
+        this.dbThisMessages.push({
             text: '상대방이 나갔습니다',
             name: UserName,
             avatarUrl: AvatarUrl,
