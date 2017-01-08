@@ -12,7 +12,8 @@ import {
     Button,
 } from 'react-native';
 
-import SplashScreen from 'react-native-splash-screen'
+import AuthController from 'AuthController';
+import SplashScreen from 'react-native-splash-screen';
 
 
 var GiftedMessenger = require('react-native-gifted-messenger');
@@ -35,7 +36,8 @@ class MessengerContainer extends Component {
     constructor(props) {
         super(props);
 
-        this.uuid = '정승진3';
+        this.authController = new AuthController();
+        this.uuid = '클레오파트라';
         this._ref = new Firebase("https://chat-e6aab.firebaseio.com/");
 
         this._messagesRef = '';
@@ -53,11 +55,13 @@ class MessengerContainer extends Component {
     }
 
     registerUser() {
+        let uuid = this.authController.getUUID();
         let userRef = this._ref.child('users');
         userRef.push({
-            _id: this.uuid,
+            _id: uuid,
             avatar: 'https://facebook.github.io/react/img/logo_og.png',
         });
+        this.uuid = uuid;
     }
 
     requestNewMatch() {
