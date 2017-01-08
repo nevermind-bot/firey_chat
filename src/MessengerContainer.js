@@ -32,17 +32,10 @@ class MessengerContainer extends Component {
     constructor(props) {
         super(props);
 
-        this.uuid = 'nevermind';
+        this.uuid = '정승진3';
         this._ref = new Firebase("https://chat-e6aab.firebaseio.com/");
 
-        this._userRef = this._ref.child('users');
-        // 익명 로그인 authenticatoin
-        this._userRef.push({
-            _id: this.uuid,
-            avatar: 'https://facebook.github.io/react/img/logo_og.png',
-        });
-
-        this._messagesRef = this.requestNewMatch();
+        this._messagesRef = '';
         this._messages = [];
 
         this.state = {
@@ -52,7 +45,51 @@ class MessengerContainer extends Component {
     }
 
     componentDidMount() {
+        this.registerUser();
+        this.requestNewMatch();
+    }
 
+    registerUser() {
+        let userRef = this._ref.child('users');
+        userRef.push({
+            _id: this.uuid,
+            avatar: 'https://facebook.github.io/react/img/logo_og.png',
+        });
+    }
+
+    requestNewMatch() {
+        let _this = this;
+        this._roomsRef = this._ref.child('rooms');
+        let roomKey = null;
+        this._roomsRef.orderByChild("userB").endAt("").limitToLast(1).once("value", function (snapshot) {
+            if (snapshot.hasChildren()) {
+                roomKey = Object.keys(snapshot.val())[0];
+                let roomKeyRef = new Firebase("https://chat-e6aab.firebaseio.com/rooms/" + roomKey);
+                let updates = {
+                    'userB': _this.uuid,
+                    'matchedAt': new Date().getTime()
+                };
+                roomKeyRef.update(updates);
+                _this._messagesRef = _this._ref.child('messages/' + roomKey);
+                _this.getMessagesFromRef();
+            }
+            else {
+                let roomsRef = new Firebase("https://chat-e6aab.firebaseio.com/rooms");
+                let roomsKeyRef = roomsRef.push({
+                    userA: _this.uuid,
+                    userB: null,
+                    createdAt: new Date().getTime(),
+                    matchedAt: null,
+                    endedAt: null,
+                });
+                roomKey = roomsKeyRef.key();
+                _this._messagesRef = _this._ref.child('messages/' + roomKey);
+                _this.getMessagesFromRef();
+            }
+        });
+    }
+
+    getMessagesFromRef() {
         this._messagesRef.on('child_added', (child) => {
             this.handleReceive({
                 text: child.val().text,
@@ -65,12 +102,11 @@ class MessengerContainer extends Component {
         });
     }
 
-    setMessages(messages) {
-        this._messages = messages;
-
+    handleReceive(message = {}) {
+        this._messages = this._messages.concat(message);
         this.setState({
-            messages: messages,
-        });
+            messages: this._messages,
+        })
     }
 
     handleSend(message = {}) {
@@ -80,10 +116,6 @@ class MessengerContainer extends Component {
             avatarUrl: AvatarUrl,
             date: new Date().getTime()
         })
-    }
-
-    handleReceive(message = {}) {
-        this.setMessages(this._messages.concat(message));
     }
 
     handleOutRequest() {
@@ -96,60 +128,23 @@ class MessengerContainer extends Component {
         });
     }
 
-    requestNewMatch() {
-        let _this = this;
-        this._roomsRef = this._ref.child('rooms');
-        let roomKey = null;
-        this._roomsRef.orderByChild("userB").endAt("").limitToLast(1).once("value", function (snapshot) {
-            console.log("a");
-            if (snapshot.hasChildren()) {
-                console.log("b");
-                roomKey = Object.keys(snapshot.val())[0];
-                let room = snapshot.val()[roomKey];
-                let roomRef = new Firebase("https://chat-e6aab.firebaseio.com/users/");
-                let roomKeyRef = new Firebase("https://chat-e6aab.firebaseio.com/rooms/" + roomKey);
-
-                console.log(roomKeyRef.key());
-                let updates = {
-                    'userB': _this.uuid,
-                    'matchedAt': new Date().getTime()
-                };
-                roomKeyRef.update(updates);
-                _this._messagesRef = _this._ref.child('messages/' + roomKey);
-                _this.componentDidMount();
-            }
-            else {
-                console.log("c");
-                let roomsRef = new Firebase("https://chat-e6aab.firebaseio.com/rooms");
-                let roomsKeyRef = roomsRef.push({
-                    userA: _this.uuid,
-                    userB: null,
-                    createdAt: new Date().getTime(),
-                    matchedAt: null,
-                    endedAt: null,
-                });
-                roomKey = roomsKeyRef.key();
-                _this._messagesRef = _this._ref.child('messages/' + roomKey);
-                _this.componentDidMount();
-            }
-
-        });
-
-        return this._ref.child('messages/' + roomKey);
-
-    }
 
     findNewMatch() {
-        console.warn('hoit');
+        this.setState({
+            messages: [],
+        });
+        this.requestNewMatch();
+
     }
 
     render() {
         return (
             <View style={{marginTop: CONTAINER_MARGIN}}>
-                <View style={{height:50, backgroundColor: 'powderblue'}}>
+                <View style={{height:45, backgroundColor: 'powderblue'}}>
                     <Button
                         onPress={() => this.findNewMatch()}
                         title="다른 상대 찾기"
+                        color="black"
                     />
                 </View>
                 <GiftedMessenger
