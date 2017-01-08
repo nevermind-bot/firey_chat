@@ -12,6 +12,9 @@ import {
     Button,
 } from 'react-native';
 
+import SplashScreen from 'react-native-splash-screen'
+
+
 var GiftedMessenger = require('react-native-gifted-messenger');
 
 if (Platform.OS == 'ios') {
