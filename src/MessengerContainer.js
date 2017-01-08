@@ -1,8 +1,3 @@
-/**
- * Created by seungjinjung on 2017. 1. 2..
- */
-'use strict';
-
 import React, {
     Component,
 } from 'react';
@@ -14,6 +9,7 @@ import {
     View,
     Text,
     Navigator,
+    Button,
 } from 'react-native';
 
 var GiftedMessenger = require('react-native-gifted-messenger');
@@ -57,7 +53,7 @@ class MessengerContainer extends Component {
 
     componentDidMount() {
 
-            this._messagesRef.on('child_added', (child) => {
+        this._messagesRef.on('child_added', (child) => {
             this.handleReceive({
                 text: child.val().text,
                 name: child.val().name,
@@ -104,7 +100,7 @@ class MessengerContainer extends Component {
         let _this = this;
         this._roomsRef = this._ref.child('rooms');
         let roomKey = null;
-        this._roomsRef.orderByChild("userB").endAt("").limitToLast(1).once("value", function(snapshot) {
+        this._roomsRef.orderByChild("userB").endAt("").limitToLast(1).once("value", function (snapshot) {
             console.log("a");
             if (snapshot.hasChildren()) {
                 console.log("b");
@@ -115,7 +111,7 @@ class MessengerContainer extends Component {
 
                 console.log(roomKeyRef.key());
                 let updates = {
-                    'userB':_this.uuid,
+                    'userB': _this.uuid,
                     'matchedAt': new Date().getTime()
                 };
                 roomKeyRef.update(updates);
@@ -143,19 +139,24 @@ class MessengerContainer extends Component {
 
     }
 
+    findNewMatch() {
+        console.warn('hoit');
+    }
+
     render() {
         return (
             <View style={{marginTop: CONTAINER_MARGIN}}>
+                <View style={{height:50, backgroundColor: 'powderblue'}}>
+                    <Button
+                        onPress={() => this.findNewMatch()}
+                        title="다른 상대 찾기"
+                    />
+                </View>
                 <GiftedMessenger
-                    styles={{
-            bubbleRight: {
-              marginLeft: 70,
-              backgroundColor: '#007aff',
-            },
-          }}
+                    styles={{bubbleRight: {marginLeft: 70, backgroundColor: '#007aff',},}}
                     messages={this.state.messages}
                     handleSend={this.handleSend.bind(this)}
-                    maxHeight={Dimensions.get('window').height - STATUS_BAR_HEIGHT - CONTAINER_MARGIN}
+                    maxHeight={Dimensions.get('window').height - STATUS_BAR_HEIGHT - CONTAINER_MARGIN -50}
                 />
             </View>
         );
