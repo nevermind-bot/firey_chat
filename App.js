@@ -14,6 +14,7 @@ import {
     Text,
     View
 } from 'react-native';
+import FCM from 'react-native-fcm';
 
 import MessengerContainer from './src/MessengerContainer'
 import SplashScreen from 'react-native-splash-screen'
@@ -21,16 +22,36 @@ import SplashScreen from 'react-native-splash-screen'
 export default class firey_chat extends Component {
 
     componentDidMount() {
+        FCM.requestPermissions();
+        FCM.getFCMToken().then(token => {
+            console.log(token);
+            // store fcm token in your server
+        });
+        this.notificationListener = FCM.on('notification', (notif) => {
+            // there are two parts of notif. notif.notification contains the notification payload, notif.data contains data payload
+            if(notif.local_notification){
+                //this is a local notification
+            }
+            if(notif.opened_from_tray){
+                //app is open/resumed because user clicked banner
+            }
+        });
+        this.refreshTokenListener = FCM.on('refreshToken', (token) => {
+            console.log(token)
+            // fcm token may not be available on first load, catch it here
+        });
         // do anything while splash screen keeps, use await to wait for an async task.
         // SplashScreen.hide();
+    }
+
+    componentWillUnmount() {
+        this.notificationListener.remove();
+        this.refreshTokenListener.remove();
     }
 
     render() {
         return (
             <MessengerContainer/>
-            // <View style={styles.container}>
-            //     <MessengerContainer/>
-            // </View>
         );
     }
 }
