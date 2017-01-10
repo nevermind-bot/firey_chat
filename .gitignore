@@ -35,6 +35,13 @@ local.properties
 node_modules/
 npm-debug.log
 
+# IOS
+#
+*.pbxproj
+ios/Pods/*
+*.xcworkspace
+ios/firey_chat.xcodeproj/project.pbxproj
+
 # BUCK
 buck-out/
 \.buckd/
@@ -44,3 +51,7 @@ android/app/libs
 android/app/firey-crudentials.json
 android/fastlane/
 fastlane/
+
+*.pbxproj
+
+*.pbxproj
