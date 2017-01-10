@@ -6,6 +6,7 @@ target 'firey_chat' do
   # use_frameworks!
 
   # Pods for firey_chat
+  pod 'Firebase/Messaging'
 
   target 'firey_chatTests' do
     inherit! :search_paths
