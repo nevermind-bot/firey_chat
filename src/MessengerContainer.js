@@ -14,6 +14,7 @@ import {
 
 import FireyFirebase from "./FirebaseConfig";
 import SplashScreen from 'react-native-splash-screen';
+import * as AsyncStorage from "react-native/Libraries/Storage/AsyncStorage";
 
 
 var GiftedMessenger = require('react-native-gifted-messenger');
@@ -58,9 +59,9 @@ class MessengerContainer extends Component {
                     this.findLastRoom();
                 } else {
                     this.makeNewUUID();
+                    this.requestNewMatch();
                 }
             });
-        this.requestNewMatch();
     }
 
     checkOldUser() {
@@ -90,14 +91,16 @@ class MessengerContainer extends Component {
     }
 
     findLastRoom() {
-        let roomKey = '';
-        this.dbRoomsRepo.orderByValue().equalTo(this.uuid).limitToLast().once("value", function(snapshot) {
-            if (snapshot.hasChildren()) {
-                roomKey = Object.keys(snapshot.val())[0];
-            }
-        });
-        this.dbMessagesRepo = this.dbBaseMessagesRepo.child(roomKey);
-        this.getMessagesFromRef();
+        let _this = this;
+        AsyncStorage.getItem('roomKey')
+            .then(function(roomKey) {
+                if (roomKey) {
+                    _this.dbMessagesRepo = _this.dbBaseMessagesRepo.child(roomKey);
+                    _this.getMessagesFromRef();
+                } else {
+                    _this.requestNewMatch();
+                }
+            });
     }
 
     requestNewMatch() {
@@ -113,6 +116,8 @@ class MessengerContainer extends Component {
                 };
                 roomKeyRef.update(updates);
                 _this.dbMessagesRepo = _this.dbBaseMessagesRepo.child(roomKey);
+                _this.getMessagesFromRef();
+                AsyncStorage.setItem('roomKey', roomKey);
             }
             else {
                 let roomsKeyRef = _this.dbRoomsRepo.push({
@@ -124,7 +129,8 @@ class MessengerContainer extends Component {
                 });
                 roomKey = roomsKeyRef.key;
                 _this.dbMessagesRepo = _this.dbBaseMessagesRepo.child(roomKey);
-
+                _this.getMessagesFromRef();
+                AsyncStorage.setItem('roomKey', roomKey);
             }
         });
     }
