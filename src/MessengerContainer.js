@@ -12,7 +12,6 @@ import {
     Button,
 } from 'react-native';
 
-import AuthController from "./AuthController";
 import FireyFirebase from "./FirebaseConfig";
 import SplashScreen from 'react-native-splash-screen';
 
@@ -36,14 +35,13 @@ class MessengerContainer extends Component {
     constructor(props) {
         super(props);
 
-        this.authController = new AuthController();
         this.uuid = '';
         this.dbRepo = FireyFirebase.firey_firebase.database();
         this.dbBaseMessagesRepo = this.dbRepo.ref('messages');
         this.dbRoomsRepo = this.dbRepo.ref('rooms');
         this.dbUsersRepo = this.dbRepo.ref('users');
         this.dbMessagesRepo = null;
-        
+
         this._messages = [];
 
         this.state = {
@@ -53,7 +51,53 @@ class MessengerContainer extends Component {
     }
 
     componentDidMount() {
+        this.checkOldUser()
+            .then(uuid => {
+                if (uuid) {
+                    this.uuid = uuid;
+                    this.findLastRoom();
+                } else {
+                    this.makeNewUUID();
+                }
+            });
         this.requestNewMatch();
+    }
+
+    checkOldUser() {
+        // 기존에 갖고 있는 UserID를 가져와야한다 LocalStorage 같은 것
+        return this.dbUsersRepo.orderByChild('id').equalTo(this.uuid).once('value').then(function(snapshot) {
+            if (snapshot.val()) {
+                return snapshot.val().id;
+            } else {
+                return null;
+            }
+        });
+    }
+
+    makeNewUUID() {
+        let _this = this;
+        FireyFirebase.firey_firebase.auth().signInAnonymously()
+            .then(function() {
+                return FireyFirebase.firey_firebase.auth().onAuthStateChanged(function(user){
+                    _this.dbUsersRepo.push({
+                        id: user.uid,
+                        avatar: 'https://facebook.github.io/react/img/logo_og.png',
+                        lastLogin: new Date().getTime(),
+                    });
+                    _this.uuid = user.uid;
+                });
+            });
+    }
+
+    findLastRoom() {
+        let roomKey = '';
+        this.dbRoomsRepo.orderByValue().equalTo(this.uuid).limitToLast().once("value", function(snapshot) {
+            if (snapshot.hasChildren()) {
+                roomKey = Object.keys(snapshot.val())[0];
+            }
+        });
+        this.dbMessagesRepo = this.dbBaseMessagesRepo.child(roomKey);
+        this.getMessagesFromRef();
     }
 
     requestNewMatch() {
@@ -69,7 +113,6 @@ class MessengerContainer extends Component {
                 };
                 roomKeyRef.update(updates);
                 _this.dbMessagesRepo = _this.dbBaseMessagesRepo.child(roomKey);
-                _this.getMessagesFromRef();
             }
             else {
                 let roomsKeyRef = _this.dbRoomsRepo.push({
@@ -81,7 +124,7 @@ class MessengerContainer extends Component {
                 });
                 roomKey = roomsKeyRef.key;
                 _this.dbMessagesRepo = _this.dbBaseMessagesRepo.child(roomKey);
-                _this.getMessagesFromRef();
+
             }
         });
     }
