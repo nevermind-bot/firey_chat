@@ -38,12 +38,12 @@ class MessengerContainer extends Component {
 
         this.authController = new AuthController();
         this.uuid = '클레오파트라';
-        this.db = FireyFirebase.firey_firebase.database();
-        this.dbMessages = this.db.ref('messages');
-        this.dbRooms = this.db.ref('rooms');
-        this.dbUsers = this.db.ref('users');
-
-        this.dbThisMessages = null;
+        this.dbRepo = FireyFirebase.firey_firebase.database();
+        this.dbBaseMessagesRepo = this.dbRepo.ref('messages');
+        this.dbRoomsRepo = this.dbRepo.ref('rooms');
+        this.dbUsersRepo = this.dbRepo.ref('users');
+        this.dbMessagesRepo = null;
+        
         this._messages = [];
 
         this.state = {
@@ -53,51 +53,41 @@ class MessengerContainer extends Component {
     }
 
     componentDidMount() {
-        this.registerUser();
         this.requestNewMatch();
-    }
-
-    registerUser() {
-        let uuid = this.authController.getUUID();
-        this.dbUsers.push({
-            _id: uuid,
-            avatar: 'https://facebook.github.io/react/img/logo_og.png',
-        });
-        this.uuid = uuid;
     }
 
     requestNewMatch() {
         let _this = this;
         let roomKey = null;
-        this.dbRooms.orderByChild("userB").endAt("").limitToLast(1).once("value", function (snapshot) {
+        this.dbRoomsRepo.orderByChild("userB").endAt("").limitToLast(1).once("value", function (snapshot) {
             if (snapshot.hasChildren()) {
                 roomKey = Object.keys(snapshot.val())[0];
-                let roomKeyRef = _this.dbRooms.child(roomKey);
+                let roomKeyRef = _this.dbRoomsRepo.child(roomKey);
                 let updates = {
                     'userB': _this.uuid,
                     'matchedAt': new Date().getTime()
                 };
                 roomKeyRef.update(updates);
-                _this.dbThisMessages = _this.dbMessages.child(roomKey);
+                _this.dbMessagesRepo = _this.dbBaseMessagesRepo.child(roomKey);
                 _this.getMessagesFromRef();
             }
             else {
-                let roomsKeyRef = _this.dbRooms.push({
+                let roomsKeyRef = _this.dbRoomsRepo.push({
                     userA: _this.uuid,
                     userB: null,
                     createdAt: new Date().getTime(),
                     matchedAt: null,
                     endedAt: null,
                 });
-                roomKey = roomsKeyRef.key();
-                _this.dbThisMessages = _this.dbMessages.child(roomKey);
+                roomKey = roomsKeyRef.key;
+                _this.dbMessagesRepo = _this.dbBaseMessagesRepo.child(roomKey);
                 _this.getMessagesFromRef();
             }
         });
     }
 
     getMessagesFromRef() {
-        this.dbThisMessages.on('child_added', (child) => {
+        this.dbMessagesRepo.on('child_added', (child) => {
             this.handleReceive({
                 text: child.val().text,
                 name: child.val().name,
@@ -117,7 +107,7 @@ class MessengerContainer extends Component {
     }
 
     handleSend(message = {}) {
-        this.dbThisMessages.push({
+        this.dbMessagesRepo.push({
             text: message.text,
             name: this.uuid,
             avatarUrl: AvatarUrl,
@@ -126,7 +116,7 @@ class MessengerContainer extends Component {
     }
 
     handleOutRequest() {
-        this.dbThisMessages.push({
+        this.dbMessagesRepo.push({
             text: '상대방이 나갔습니다',
             name: UserName,
             avatarUrl: AvatarUrl,

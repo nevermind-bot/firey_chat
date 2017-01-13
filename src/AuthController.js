@@ -5,21 +5,52 @@ import FireyFirebase from "./FirebaseConfig";
 class AuthController {
     constructor() {
         this.uuid = '';
+        this.dbUsersRepo = FireyFirebase.firey_firebase.database().ref('users');
+        this.dbRoomsRepo = FireyFirebase.firey_firebase.database().ref('rooms');
         //noinspection JSUnresolvedFunction
-        FireyFirebase.firey_firebase.auth().signInAnonymously().catch(function(error) {
-            console.log('Anonymous UUID 발급 실패');
-            console.log(error);
-        }).then(function() {
-            //noinspection JSUnresolvedFunction
-            FireyFirebase.firey_firebase.auth().onAuthStateChanged(function(user){
-                console.log('User Register Success');
-                console.log(user.uid);
-                this.uuid = user.uid;
+        this.checkOldUser()
+            .then(uuid => {
+                if (uuid) {
+                    this.uuid = uuid;
+                } else {
+                    this.makeNewUUID();
+                }
+            });
+    }
+
+    getUUID() {
+        return this.uuid;
+    }
+
+    checkOldUser() {
+        let tempUserKey = '1a2b3c4d';
+        return this.dbUsersRepo.child(tempUserKey).once('value').then(function(snapshot) {
+            if (snapshot.val()) {
+                return snapshot.val().id;
+            } else {
+                return null;
+            }
+        });
+    }
+
+    makeNewUUID() {
+        let _this = this;
+        FireyFirebase.firey_firebase.auth().signInAnonymously()
+            .then(function() {
+                return FireyFirebase.firey_firebase.auth().onAuthStateChanged(function(user){
+                    _this.dbUsersRepo.push({
+                        id: user.uid,
+                        avatar: 'https://facebook.github.io/react/img/logo_og.png',
+                        lastLogin: new Date().getTime(),
+                    });
+                    _this.uuid = user.uid;
             });
         });
     }
-    getUUID() {
-        return this.uuid;
+
+    getLastRoom(uuid) {
+        this.dbRoomsRepo.orderByChild("");
+        return [];
     }
 }
 
