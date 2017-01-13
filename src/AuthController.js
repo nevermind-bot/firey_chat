@@ -7,7 +7,6 @@ class AuthController {
         this.uuid = '';
         this.dbUsersRepo = FireyFirebase.firey_firebase.database().ref('users');
         this.dbRoomsRepo = FireyFirebase.firey_firebase.database().ref('rooms');
-        //noinspection JSUnresolvedFunction
         this.checkOldUser()
             .then(uuid => {
                 if (uuid) {
@@ -46,11 +45,6 @@ class AuthController {
                     _this.uuid = user.uid;
             });
         });
-    }
-
-    getLastRoom(uuid) {
-        this.dbRoomsRepo.orderByChild("");
-        return [];
     }
 }
 

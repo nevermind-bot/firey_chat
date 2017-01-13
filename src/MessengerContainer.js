@@ -37,7 +37,7 @@ class MessengerContainer extends Component {
         super(props);
 
         this.authController = new AuthController();
-        this.uuid = '클레오파트라';
+        this.uuid = '';
         this.dbRepo = FireyFirebase.firey_firebase.database();
         this.dbBaseMessagesRepo = this.dbRepo.ref('messages');
         this.dbRoomsRepo = this.dbRepo.ref('rooms');
