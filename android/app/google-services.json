@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "113210889715",
+    "firebase_url": "https://chat-e6aab.firebaseio.com",
+    "project_id": "chat-e6aab",
+    "storage_bucket": "chat-e6aab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:113210889715:android:6808633993ed4de9",
+        "android_client_info": {
+          "package_name": "com.firey_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "113210889715-bb38r2l9ebs74kmit93ch26m9klbgu5q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB62Ys8Sqb6yxSrC2FtQ8W-dVVYNlho5sQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,6 +2,7 @@ package com.firey_chat;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
+import com.evollu.react.fcm.FIRMessagingPackage;
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import com.cboy.rn.splashscreen.SplashScreen;
 
