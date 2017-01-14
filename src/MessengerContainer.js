@@ -17,7 +17,7 @@ import SplashScreen from 'react-native-splash-screen';
 import * as AsyncStorage from "react-native/Libraries/Storage/AsyncStorage";
 
 
-var GiftedMessenger = require('react-native-gifted-messenger');
+let GiftedMessenger = require('react-native-gifted-messenger');
 
 if (Platform.OS == 'ios') {
     var STATUS_BAR_HEIGHT = 0;
@@ -25,11 +25,12 @@ if (Platform.OS == 'ios') {
     var UserName = 'ios';
     var AvatarUrl = 'https://source.unsplash.com/sseiVD2XsOk/100x100';
 } else {
-    var STATUS_BAR_HEIGHT = 100;
-    var CONTAINER_MARGIN = 0;
+    var STATUS_BAR_HEIGHT = 0;
+    var CONTAINER_MARGIN = 20;
     var UserName = 'android';
     var AvatarUrl = 'https://source.unsplash.com/2Ts5HnA67k8/100x100';
 }
+
 
 class MessengerContainer extends Component {
 

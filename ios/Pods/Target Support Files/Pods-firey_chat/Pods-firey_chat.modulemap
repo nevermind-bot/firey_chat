@@ -1,0 +1,6 @@
+framework module Pods_firey_chat {
+  umbrella header "Pods-firey_chat-umbrella.h"
+
+  export *
+  module * { export * }
+}

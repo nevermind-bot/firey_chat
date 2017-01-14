@@ -22,24 +22,21 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 
-# Android/IntelliJ
+# Android/IJ
 #
-build/
 .idea
 .gradle
 local.properties
-*.iml
-.tmp
+
 # node.js
 #
 node_modules/
 npm-debug.log
-
 # BUCK
 buck-out/
 \.buckd/
 android/app/libs
-*.keystore
+android/keystores/debug.keystore
 
 android/app/firey-crudentials.json
 android/fastlane/

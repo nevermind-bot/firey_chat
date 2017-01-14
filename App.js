@@ -12,38 +12,85 @@ import {
     AppRegistry,
     StyleSheet,
     Text,
-    View
+    View,
+    AsyncStorage,
+    Platform,
 } from 'react-native';
 import FCM from 'react-native-fcm';
+import SplashScreen from 'react-native-splash-screen'
 
 import MessengerContainer from './src/MessengerContainer'
-import SplashScreen from 'react-native-splash-screen'
+import FireyFirebase from "./src/FirebaseConfig";
+
+let LOCAL_DB_UUID = '@localdb:uuid';
 
 export default class firey_chat extends Component {
 
-    componentDidMount() {
-        // do anything while splash screen keeps, use await to wait for an async task.
-        SplashScreen.hide();
+    constructor(props) {
+        super(props);
 
-        FCM.requestPermissions(); // for iOS
-        FCM.getFCMToken().then(token => {
-            console.log(token)
-            // store fcm token in your server
-        });
+        this.dbRepo = FireyFirebase.firey_firebase.database();
+        this.dbUsersRepo = this.dbRepo.ref('users');
+    }
+
+    componentDidMount() {
+        this._initialSettings().done();
+
+        FCM.getInitialNotification().then(notification => console.log(notification));
+
         this.notificationListener = FCM.on('notification', (notif) => {
             // there are two parts of notif. notif.notification contains the notification payload, notif.data contains data payload
             if(notif.local_notification){
+                console.log('local_notification');
                 //this is a local notification
             }
             if(notif.opened_from_tray){
+                console.log('opened_from_tray');
                 //app is open/resumed because user clicked banner
             }
         });
-        this.refreshTokenListener = FCM.on('refreshToken', (token) => {
-            console.log(token)
-            // fcm token may not be available on first load, catch it here
-        });
+        // this.refreshTokenListener = FCM.on('refreshToken', (token) => {
+        //     console.log(token);
+        //     // fcm token may not be available on first load, catch it here
+        // });
     }
+
+    _initialSettings = async () => {
+        let _this = this;
+        try {
+            console.log('=====0');
+            let uuid = await AsyncStorage.getItem(LOCAL_DB_UUID);
+            console.log('=====', uuid);
+            await FCM.getFCMToken().then(token => {
+                _this.fcm_token = token;
+                console.log('=====1', token);
+            });
+            console.log('=====2');
+            await FCM.requestPermissions(); // for iOS
+            if (uuid == null ){
+                console.log('=====3');
+                FireyFirebase.firey_firebase.auth().signInAnonymously()
+                    .then(function() {
+                        console.log('=====4', _this.fcm_token);
+                        return FireyFirebase.firey_firebase.auth().onAuthStateChanged(function(user){
+                            _this.dbUsersRepo.push({
+                                id: user.uid,
+                                created: new Date().getTime(),
+                                platform: Platform.OS,
+                                fcm_token: _this.fcm_token
+                            });
+                            AsyncStorage.setItem(LOCAL_DB_UUID, user.uid)
+                        });
+                    });
+            } else {
+                _this.uuid = uuid;
+            }
+            console.log('=====5');
+            await SplashScreen.hide();
+        } catch (error) {
+            console.log('AsyncStorage error: ' + error.message);
+        }
+    };
 
     componentWillUnmount() {
         // stop listening for events
@@ -53,10 +100,9 @@ export default class firey_chat extends Component {
 
     render() {
         return (
-            <MessengerContainer/>
-            // <View style={styles.container}>
-            //     <MessengerContainer/>
-            // </View>
+            <View style={styles.container}>
+                <MessengerContainer/>
+            </View>
         );
     }
 }

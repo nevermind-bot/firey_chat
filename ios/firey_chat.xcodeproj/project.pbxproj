@@ -24,8 +24,13 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		8C70CF2E30DF14323E5A18CD /* Pods_firey_chat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8453D94D3BBB91A7FE1573C /* Pods_firey_chat.framework */; };
 		BD6FFFE06578465397B8F9C9 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B6D90B7A94BE4FCABC83CBA7 /* libSplashScreen.a */; };
+		E05A82CA1E2A555600E1590A /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = E05A82C81E2A555600E1590A /* Podfile */; };
+		E05A82CB1E2A555600E1590A /* Podfile.lock in Resources */ = {isa = PBXBuildFile; fileRef = E05A82C91E2A555600E1590A /* Podfile.lock */; };
+		E05A83331E2A5A3A00E1590A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E05A83321E2A5A3A00E1590A /* GoogleService-Info.plist */; };
 		F5C54F2889364C8380C5AC53 /* libRNFIRMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B7F0DF01BB045B98F7115A1 /* libRNFIRMessaging.a */; };
+		FEA909FB4E9D633051445DF1 /* Pods_firey_chatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C5D34B1569230EA1327E322 /* Pods_firey_chatTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -207,13 +212,22 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = firey_chat/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		2B7F0DF01BB045B98F7115A1 /* libRNFIRMessaging.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFIRMessaging.a; sourceTree = "<group>"; };
+		30BA311F0685CB78DAB32DCE /* Pods-firey_chatTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-firey_chatTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-firey_chatTests/Pods-firey_chatTests.release.xcconfig"; sourceTree = "<group>"; };
+		576E38E7B6AB1617FE887CD6 /* Pods-firey_chatTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-firey_chatTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-firey_chatTests/Pods-firey_chatTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5C5D34B1569230EA1327E322 /* Pods_firey_chatTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_firey_chatTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		61596BB8803146668BC62BCB /* RNFIRMessaging.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFIRMessaging.xcodeproj; path = "../node_modules/react-native-fcm/ios/RNFIRMessaging.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		8FFE900B7B406CF2B1E9890D /* Pods-firey_chat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-firey_chat.release.xcconfig"; path = "Pods/Target Support Files/Pods-firey_chat/Pods-firey_chat.release.xcconfig"; sourceTree = "<group>"; };
+		B1E5FBBAF772587A4F300872 /* Pods-firey_chat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-firey_chat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-firey_chat/Pods-firey_chat.debug.xcconfig"; sourceTree = "<group>"; };
 		B6D90B7A94BE4FCABC83CBA7 /* libSplashScreen.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSplashScreen.a; sourceTree = "<group>"; };
 		E05A82681E29DC5C00E1590A /* 챗챗.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "챗챗.entitlements"; path = "firey_chat/챗챗.entitlements"; sourceTree = "<group>"; };
 		E05A82691E29DC5C00E1590A /* 챗챗.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "챗챗.entitlements"; path = "firey_chat/챗챗.entitlements"; sourceTree = "<group>"; };
+		E05A82C81E2A555600E1590A /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		E05A82C91E2A555600E1590A /* Podfile.lock */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile.lock; sourceTree = "<group>"; };
+		E05A83321E2A5A3A00E1590A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F8453D94D3BBB91A7FE1573C /* Pods_firey_chat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_firey_chat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,6 +236,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */,
+				FEA909FB4E9D633051445DF1 /* Pods_firey_chatTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,6 +257,7 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				BD6FFFE06578465397B8F9C9 /* libSplashScreen.a in Frameworks */,
 				F5C54F2889364C8380C5AC53 /* libRNFIRMessaging.a in Frameworks */,
+				8C70CF2E30DF14323E5A18CD /* Pods_firey_chat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +323,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		124A71575D37A77E7C1CAB8B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F8453D94D3BBB91A7FE1573C /* Pods_firey_chat.framework */,
+				5C5D34B1569230EA1327E322 /* Pods_firey_chatTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		139105B71AF99BAD00B5F7CC /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -335,6 +360,7 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
+				E05A83321E2A5A3A00E1590A /* GoogleService-Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
@@ -348,6 +374,17 @@
 				E01162D81E1EBA1400E0D57B /* libReact-tvOS.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		3092A299BF8D5BE8A61229EB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B1E5FBBAF772587A4F300872 /* Pods-firey_chat.debug.xcconfig */,
+				8FFE900B7B406CF2B1E9890D /* Pods-firey_chat.release.xcconfig */,
+				576E38E7B6AB1617FE887CD6 /* Pods-firey_chatTests.debug.xcconfig */,
+				30BA311F0685CB78DAB32DCE /* Pods-firey_chatTests.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		5E91572E1DD0AC6500FF2AA8 /* Products */ = {
@@ -400,10 +437,14 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				E05A82C81E2A555600E1590A /* Podfile */,
+				E05A82C91E2A555600E1590A /* Podfile.lock */,
 				13B07FAE1A68108700A75B9A /* firey_chat */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* firey_chatTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
+				3092A299BF8D5BE8A61229EB /* Pods */,
+				124A71575D37A77E7C1CAB8B /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -441,9 +482,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "firey_chatTests" */;
 			buildPhases = (
+				DD20FB0A5B2A29417B12190C /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
+				1A9EAAC65A0E3EAF0C150CA0 /* [CP] Embed Pods Frameworks */,
+				ACF4FBE3E2CC4D2197319E3A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -459,10 +503,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "firey_chat" */;
 			buildPhases = (
+				8E82D87E183C7880EAF7BBCC /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				E0831DB595DEABB1FED5AA2D /* [CP] Embed Pods Frameworks */,
+				141B509ACA5B3B788BEC2292 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -490,6 +537,9 @@
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = JRQTKM8QTU;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -732,7 +782,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E05A82CA1E2A555600E1590A /* Podfile in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				E05A83331E2A5A3A00E1590A /* GoogleService-Info.plist in Resources */,
+				E05A82CB1E2A555600E1590A /* Podfile.lock in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -753,6 +806,96 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/packager/react-native-xcode.sh";
+		};
+		141B509ACA5B3B788BEC2292 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-firey_chat/Pods-firey_chat-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1A9EAAC65A0E3EAF0C150CA0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-firey_chatTests/Pods-firey_chatTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8E82D87E183C7880EAF7BBCC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		ACF4FBE3E2CC4D2197319E3A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-firey_chatTests/Pods-firey_chatTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DD20FB0A5B2A29417B12190C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E0831DB595DEABB1FED5AA2D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-firey_chat/Pods-firey_chat-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -799,6 +942,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 576E38E7B6AB1617FE887CD6 /* Pods-firey_chatTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -820,6 +964,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 30BA311F0685CB78DAB32DCE /* Pods-firey_chatTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -838,6 +983,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B1E5FBBAF772587A4F300872 /* Pods-firey_chat.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
@@ -850,6 +996,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.fireyChat.ios;
 				PRODUCT_NAME = "챗챗";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -857,6 +1004,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8FFE900B7B406CF2B1E9890D /* Pods-firey_chat.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
@@ -868,6 +1016,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.fireyChat.ios;
 				PRODUCT_NAME = "챗챗";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
