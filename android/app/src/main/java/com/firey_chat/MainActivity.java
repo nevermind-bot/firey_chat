@@ -2,12 +2,13 @@ package com.firey_chat;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
+import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import com.cboy.rn.splashscreen.SplashScreen;
 
 public class MainActivity extends ReactActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // SplashScreen.show(this);  // here
+        SplashScreen.show(this, true);  // here
         super.onCreate(savedInstanceState);
     }
     /**

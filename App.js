@@ -22,7 +22,7 @@ export default class firey_chat extends Component {
 
     componentDidMount() {
         // do anything while splash screen keeps, use await to wait for an async task.
-        // SplashScreen.hide();
+        SplashScreen.hide();
     }
 
     render() {
