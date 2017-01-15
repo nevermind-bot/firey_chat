@@ -61,7 +61,7 @@ export default class firey_chat extends Component {
             let uuid = await AsyncStorage.getItem('uuid');
             console.log('=====', uuid);
             await FCM.getFCMToken().then(token => {
-                _this.fcm_token = String(token);
+                _this.fcm_token = token;
                 console.log('=====1', token);
             });
             console.log('=====2');
