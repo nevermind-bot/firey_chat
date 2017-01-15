@@ -22,7 +22,6 @@ import SplashScreen from 'react-native-splash-screen'
 import MessengerContainer from './src/MessengerContainer'
 import FireyFirebase from "./src/FirebaseConfig";
 
-let LOCAL_DB_UUID = '@localdb:uuid';
 
 export default class firey_chat extends Component {
 
@@ -49,20 +48,20 @@ export default class firey_chat extends Component {
                 //app is open/resumed because user clicked banner
             }
         });
-        // this.refreshTokenListener = FCM.on('refreshToken', (token) => {
-        //     console.log(token);
-        //     // fcm token may not be available on first load, catch it here
-        // });
+        this.refreshTokenListener = FCM.on('refreshToken', (token) => {
+            console.log("here", token);
+            // fcm token may not be available on first load, catch it here
+        });
     }
 
     _initialSettings = async () => {
         let _this = this;
         try {
             console.log('=====0');
-            let uuid = await AsyncStorage.getItem(LOCAL_DB_UUID);
+            let uuid = await AsyncStorage.getItem('uuid');
             console.log('=====', uuid);
             await FCM.getFCMToken().then(token => {
-                _this.fcm_token = token;
+                _this.fcm_token = String(token);
                 console.log('=====1', token);
             });
             console.log('=====2');
@@ -79,7 +78,7 @@ export default class firey_chat extends Component {
                                 platform: Platform.OS,
                                 fcm_token: _this.fcm_token
                             });
-                            AsyncStorage.setItem(LOCAL_DB_UUID, user.uid)
+                            AsyncStorage.setItem(uuid, user.uid)
                         });
                     });
             } else {

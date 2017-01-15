@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 
 import FireyFirebase from "./FirebaseConfig";
-import SplashScreen from 'react-native-splash-screen';
 import * as AsyncStorage from "react-native/Libraries/Storage/AsyncStorage";
 
 
@@ -37,7 +36,7 @@ class MessengerContainer extends Component {
     constructor(props) {
         super(props);
 
-        this.uuid = '';
+        this.uuid = AsyncStorage.getItem('uuid');
         this.dbRepo = FireyFirebase.firey_firebase.database();
         this.dbBaseMessagesRepo = this.dbRepo.ref('messages');
         this.dbRoomsRepo = this.dbRepo.ref('rooms');
@@ -53,16 +52,17 @@ class MessengerContainer extends Component {
     }
 
     componentDidMount() {
-        this.checkOldUser()
-            .then(uuid => {
-                if (uuid) {
-                    this.uuid = uuid;
-                    this.findLastRoom();
-                } else {
-                    this.makeNewUUID();
-                    this.requestNewMatch();
-                }
-            });
+        this.findLastRoom();
+        // this.checkOldUser()
+        //     .then(uuid => {
+        //         if (uuid) {
+        //             this.uuid = uuid;
+        //             this.findLastRoom();
+        //         } else {
+        //             this.makeNewUUID();
+        //             this.requestNewMatch();
+        //         }
+        //     });
     }
 
     checkOldUser() {
